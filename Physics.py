@@ -1,9 +1,9 @@
 import tkinter 
 import numpy as np 
 
-class Body:
+class Particle:
     '''A class to model the properties and behaviours of physical bodies'''
-    bodies = []
+    particles = []
 
     def __init__(self, mass=1, position=np.array([0, 0]), velocity=np.array([0, 0])):
         self.mass = mass 
@@ -11,7 +11,7 @@ class Body:
         self.velocity = velocity 
         self.force = np.array([0, 0]) 
 
-        Body.bodies.append(self)
+        Particle.particles.append(self)
 
 
 class TimeStepper:
