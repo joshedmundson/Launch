@@ -1,6 +1,12 @@
 import tkinter 
 import numpy as np 
 
+
+class Constants:
+    '''A class to contain physical constants'''
+    G = 6.67408 * (10 ** (-11))
+
+
 class Particle:
     '''A class to model the properties and behaviours of physical bodies'''
     particles = []
