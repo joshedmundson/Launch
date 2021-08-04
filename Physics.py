@@ -19,6 +19,24 @@ class Particle:
 
         Particle.particles.append(self)
 
+    def calcGravitationalPull(self):
+        '''
+        This method calculates the gravitational attraction between this instance of Particle and all 
+        other Partical instances in Particle.particles and then modifies the force property of those
+        OTHER Particals accordingly. 
+        '''
+        for other_particle in Particle.particles:
+            if self != other_particle:
+                r_vec = other_particle.position - self.position    # Determines the displacement vector from this Particle to the other_particle
+                r = np.linalg.norm(r_vec)                          # Finds the magnitude of the displacement vector
+                r_norm = (1 / r) * r_vec                           # Finds the normal direction vector of the displacement
+
+                force = - (Constants.G * self.mass * other_particle.mass) / (r ** 2)
+                force_vec = force * r_norm 
+
+                other_particle.force = other_particle.force + force_vec
+
+
 
 class TimeStepper:
     '''A class that updates the properties of Bodies using a Newtonian method'''
