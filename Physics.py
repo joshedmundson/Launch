@@ -36,6 +36,21 @@ class Particle:
 
                 other_particle.force = other_particle.force + force_vec
 
+    def initOrbit(self, particle):
+        '''Calculates the initial velocity required for the orbit of this particle about another'''
+        r_vector = self.position - particle.position 
+        r_scalar = np.linalg.norm(r_vector)
+        F_scalar = np.linalg.norm(self.force)
+
+        F_x = self.force[0]
+        F_y = self.force[1]
+                
+        v_scalar = np.sqrt((F_scalar * r_scalar) / self.mass)
+        v_norm = np.array([-np.sqrt((F_y ** 2) / (F_x ** 2 + F_y ** 2)), np.sqrt(((F_x ** 2) / ((F_x ** 2) + (F_y ** 2))))])
+        v_vector = v_scalar * v_norm   
+
+        self.velocity = v_vector
+
 
 
 class TimeStepper:
@@ -44,4 +59,11 @@ class TimeStepper:
     def __init__(self, delta_t=0.001):
         self.delta_t = delta_t 
     
-    
+    def step(self):
+        '''A method that updates the properties of the particles after some time delta_t has passed'''
+        for particle in Particle.particles:
+            particle.position = particle.position + particle.velocity * self.delta_t 
+            particle.velocity = particle.velocity + (particle.force / particle.mass) * self.delta_t 
+            particle.calcGravitationalPull()
+            
+            
